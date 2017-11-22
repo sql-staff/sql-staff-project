@@ -8,5 +8,13 @@
 </head>
 <body>
 	<h1>회원가입</h1>
+	<form action="/auth/registerProcess" method="post">
+		<input name="email" placeholder="email">
+		<input name="name" placeholder="name">
+		<input name="group" placeholder="group">
+		<input name="password" placeholder="password">
+		<input name="confirm_password" placeholder="confirm_password">
+		<input type="submit">
+	</form>
 </body>
 </html>

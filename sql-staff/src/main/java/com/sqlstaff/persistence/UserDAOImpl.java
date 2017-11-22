@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.sqlstaff.domain.UserVO;
+import com.sqlstaff.dto.LoginDTO;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -19,6 +20,11 @@ public class UserDAOImpl implements UserDAO {
 	
 	private static final String namespace = "com.sqlstaff.mapper.UserMapper";
 
+	@Override
+	public UserVO login(LoginDTO dto) throws Exception {
+		return sqlSession.selectOne(namespace + ".login", dto);
+	}
+	
 	@Override
 	public String getTime() {
 		return sqlSession.selectOne(namespace+".getTime");

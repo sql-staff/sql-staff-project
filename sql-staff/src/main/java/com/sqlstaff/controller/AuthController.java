@@ -1,13 +1,17 @@
 package com.sqlstaff.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.sqlstaff.domain.UserVO;
+import com.sqlstaff.dto.LoginDTO;
 import com.sqlstaff.service.UserService;
 
 @Controller
@@ -21,7 +25,7 @@ public class AuthController {
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String authGET() {
-		logger.info("/auth");
+		logger.info("/auth:GET");
 		return "redirect:auth/login";
 	}
 	
@@ -31,10 +35,14 @@ public class AuthController {
 		return "/auth/login";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String loginPOST() {
-		logger.info("/auth/login:POST");
-		return null;
+	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
+	public void loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
+		logger.info("/auth/loginProcess:POST");
+		UserVO vo = userService.login(dto);
+		if(vo == null) {
+			return; // login fail
+		}
+		model.addAttribute("UserVO", vo);
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
@@ -43,15 +51,15 @@ public class AuthController {
 		return "/auth/register";
 	}
 	
-	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registerPOST() {
-		logger.info("/auth/register:POST");
+	@RequestMapping(value="/registerProcess", method=RequestMethod.POST)
+	public void registerPOST() {
+		logger.info("/auth/registerProcess:POST");
 		return null;
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	@RequestMapping(value="/logoutProcess", method=RequestMethod.POST)
 	public String logoutPOST() {
-		logger.info("/auth/logout:POST");
+		logger.info("/auth/logoutProcess:POST");
 		return null;
 	}
 }

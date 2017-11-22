@@ -9,5 +9,5 @@
 </head>
 <body>
 <div id="head">
-	<h1>header</h1>
+	<h1>welcome</h1>
 </div>
