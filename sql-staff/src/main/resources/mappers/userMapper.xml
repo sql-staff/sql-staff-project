@@ -16,7 +16,7 @@
 
 	<!-- login -->
 	<select id="login" resultMap="userMap">
-		SELECT * FROM user_tb WHERE user_id = #{user_id} ANE user_pw = #{user_pw}
+		SELECT * FROM user_tb WHERE user_email = #{user_email} ANE user_pw = #{user_pw}
 	</select>
 
 	<!-- add user -->
