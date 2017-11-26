@@ -1,5 +1,8 @@
 package com.sqlstaff.controller;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -28,7 +31,7 @@ public class AuthController {
 	@RequestMapping(value="", method=RequestMethod.GET)
 	public String authGET() {
 		logger.info("/auth:GET");
-		return "redirect:auth/login";
+		return "redirect:/auth/login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
@@ -38,18 +41,15 @@ public class AuthController {
 	}
 	
 	@RequestMapping(value="/loginProcess", method=RequestMethod.POST)
-	public void loginPOST(LoginDTO dto, HttpSession session, Model model) {
-		try {
+	public void loginPOST(LoginDTO dto, HttpSession session, Model model) throws Exception {
 		logger.info("/auth/loginProcess:POST");
+	
 		UserVO vo = userService.login(dto);
 		if(vo == null) {
 			logger.info("login fail");
 			return; // login fail
 		}
 		model.addAttribute("UserVO", vo);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.GET)
@@ -67,7 +67,7 @@ public class AuthController {
 	public String logoutPOST(HttpSession session, RedirectAttributes rttr) {
 		logger.info("/auth/logoutProcess:POST");
 		session.invalidate(); //세션 파괴
+		rttr.addFlashAttribute("msg", "로그아웃되었습니다.");
 		return "redirect:/";
-
 	}
 }

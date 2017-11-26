@@ -9,13 +9,5 @@ public interface UserService {
 	
 	public UserVO login(LoginDTO dto) throws Exception;
 	
-	public String getTime();
-	
 	public void insertUser(UserVO vo);
-	
-	public UserVO readUser(String user_email) throws Exception;
-	
-	public UserVO readWithPw(String user_email, String user_pw) throws Exception;
-	
-	public List<UserVO> listAll();
 }

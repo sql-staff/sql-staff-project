@@ -9,6 +9,7 @@
 </head>
 <body>
 	<h1>로그인</h1>
+	<div>${ msg }</div>
 	<form action="/auth/loginProcess" method="POST">
 		<input name="user_email" placeholder="email">
 		<input name="user_pw" placeholder="password">
