@@ -1,0 +1,9 @@
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sqlstaff.mapper.ShareMapper">
+	<!-- 링크로 들어오는 것을 처리 -->
+	<select id="selectShareLink">
+		SELECT * FROM share_tb WHERE share_link = #{share_link}
+	</select>
+</mapper>
