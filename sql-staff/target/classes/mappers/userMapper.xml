@@ -12,23 +12,33 @@
 		<result property="user_pw" column = "user_pw"/>
 		<result property="user_name" column = "user_name"/>
 		<result property="user_auto_login" column = "user_auto_login"/>
+		<result property="user_image" column = "user_image"/>
 	</resultMap>
 
 	<!-- login -->
 	<select id="login" resultMap="userMap">
 		SELECT * FROM user_tb WHERE user_email = #{user_email} AND user_pw = #{user_pw}
 	</select>
-
+	
+	<!-- register duplicated -->	
+	<select id="registerDuplicate" resultType="boolean">
+		SELECT CASE WHEN COUNT(*) = 0 THEN 0 ELSE 1 END AS isDuplicate FROM user_tb WHERE user_email = #{user_email}
+	</select>
+	
+	<!-- user image update -->
+	<select id="imageUpdate">
+		UPDATE user_tb SET user_image = #{user_image} WHERE user_id = #{user_id}
+	</select>
+	
 	<!-- insert user -->
-	<!-- 
 	<insert id="insertUser">
 		<selectKey keyProperty="user_id" resultType="int" order="BEFORE">
 			select USER_TB_SEQ.nextval FROM DUAL
 		</selectKey>
-		INSERT INTO user_tb (user_id, user_email, user_pw, user_name, user_auto_login) VALUES
-		( #{user_id}, #{user_email}, #{user_pw}, #{user_name}, #{user_auto_login} )
+		INSERT INTO user_tb (user_id, user_email, user_pw, user_name, user_auto_login) 
+		VALUES ( #{user_id}, #{user_email}, #{user_pw}, #{user_name}, #{user_auto_login}, #{user_image} )
 	</insert>
-	 -->
+	
 	<!-- test user list-->
 	<!--
 	<select id="listAll" resultMap="userMap">

@@ -1,11 +1,12 @@
 package com.sqlstaff.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
@@ -20,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonAnyFormatVisitor;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.sqlstaff.domain.UserVO;
 import com.sqlstaff.dto.LoginDTO;
+import com.sqlstaff.dto.RegisterDuplicatedDTO;
 import com.sqlstaff.service.UserService;
 
 @Controller
@@ -65,17 +65,33 @@ public class AuthController {
 		return "/auth/register";
 	}
 	
-	@RequestMapping(value="/registerDuplicate", method=RequestMethod.POST, produces="application/json")
+	@RequestMapping(value="/registerDuplicate", method=RequestMethod.POST, produces="application/json; charset=UTF-8", consumes="application/json; charset=UTF-8")
 	@ResponseBody
-	public String registerDuplicateId(@RequestBody String reqStr){
+	public String registerDuplicateIdPOST(@RequestBody Map<String, String> reqMap, HttpServletResponse response){
 		logger.info("/auth/registerDuplicate:POST");
-		logger.info(reqStr.toString());
+		logger.info(reqMap.toString());
+		System.out.println(reqMap.get("userEmail"));
+		
+		RegisterDuplicatedDTO dto = new RegisterDuplicatedDTO();
+		dto.setUser_email(reqMap.get("userEmail"));
+		
+		boolean isDuplicate = userService.registerDuplicate(dto);
 		
 		Map<String, Object> resMap = new HashMap<String, Object>();
-		resMap.put("succeed", true);
-		JSONObject resJson = new JSONObject(resMap);
 		
-		return resJson.toString();
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		
+		dataMap.put("isDuplicated", isDuplicate);
+		
+		List<Object> dataList = new ArrayList<Object>();
+		dataList.add(dataMap);
+		
+		resMap.put("data", dataList);
+		resMap.put("succeed", true);
+		
+		JSONObject json = new JSONObject(resMap);
+        
+		return json.toJSONString();
 	}
 	
 	@RequestMapping(value="/registerProcess", method=RequestMethod.POST)

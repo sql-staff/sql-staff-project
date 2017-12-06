@@ -6,6 +6,7 @@ public class UserVO {
 	private String user_pw;
 	private String user_name;
 	private String user_auto_login;
+	private String user_image;
 	
 	public int getUser_id() {
 		return user_id;
@@ -37,10 +38,17 @@ public class UserVO {
 	public void setUser_auto_login(String user_auto_login) {
 		this.user_auto_login = user_auto_login;
 	}
+	public String getUser_image() {
+		return user_image;
+	}
+	public void setUser_image(String user_image) {
+		this.user_image = user_image;
+	}
 	
 	@Override
 	public String toString() {
 		return "UserVO [user_id=" + user_id + ", user_email=" + user_email + ", user_pw=" + user_pw + ", user_name="
-				+ user_name + ", user_auto_login=" + user_auto_login + "]";
+				+ user_name + ", user_auto_login=" + user_auto_login + ", user_image=" + user_image + "]";
 	}
+	
 }

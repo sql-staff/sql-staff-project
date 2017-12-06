@@ -30,11 +30,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest req, HttpServletResponse res, Object Handler, ModelAndView modelAndView) throws Exception {
 		HttpSession session = req.getSession();
 		ModelMap modelMap = modelAndView.getModelMap();
-		//만약 모델 맵에 userVO가 들어가있다면 로그인이 성공했다는 뜻
+		
 		Object userVO = modelMap.get("UserVO");
 		if(userVO != null){
 			logger.info("로그인 성공");
-			session.setAttribute(LOGIN, userVO); //유저 객체를 세션에 넣어줌
+			session.setAttribute(LOGIN, userVO); 
 			res.sendRedirect("/"); //루트 폴더로 돌려보냄.
 		}else {
 			//로그인 실패시 다시 로그인 창으로 리다이렉트
